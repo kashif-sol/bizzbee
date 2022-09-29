@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ShowSyncData;
 use App\Http\Controllers\VerifyController;
@@ -22,7 +23,11 @@ Route::post('/verifyApi',[VerifyController::class,"verifyData"]);
 Route::post('/cancelorder', [OrderStatusController::class,"cancelOrder"]);
 Route::post('/fulfillorder',[OrderStatusController::class,"fulfillOrder"]);
 Route::post('/stockorder',[OrderStatusController::class,"stockOrder"]);
-Route::get('/',[ShopController::class,"getData"])->middleware(['verify.shopify'])->name('home');
+Route::group(['middleware' => 'verify.shopify'], function () {
+Route::get('/',[ShopController::class,"getData"])->name('home');
+Route::get('orders',[OrderController::class ,"index"]);
+Route::get('orderid/{arr}',[OrderController::class,'getOrderID']);
+});
 
 Route::get('/webhook', [Webhook::class,"create"]);
 Route::get('/customers/data_request', function () {

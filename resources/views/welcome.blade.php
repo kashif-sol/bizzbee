@@ -90,6 +90,9 @@
                     <div class="row">
                         <h4 style="color: #959595">Let's Start Fulfiling Your E-Commerce Dreams.</h4>
                     </div>
+                    <div class="row">
+                        <a  href="orders" style="color: #959595;text-decoration: none">Orders.</a>
+                    </div>
                 </div>
             </div>
         </div>
