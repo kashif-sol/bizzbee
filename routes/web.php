@@ -25,8 +25,9 @@ Route::post('/fulfillorder',[OrderStatusController::class,"fulfillOrder"]);
 Route::post('/stockorder',[OrderStatusController::class,"stockOrder"]);
 Route::group(['middleware' => 'verify.shopify'], function () {
 Route::get('/',[ShopController::class,"getData"])->name('home');
-Route::get('orders',[OrderController::class ,"index"]);
-Route::get('orderid/{arr}',[OrderController::class,'getOrderID']);
+Route::get('orders',[OrderController::class ,"index"])->name('Orders');
+Route::get('order_view',[OrderController::class ,"order_view"]);
+Route::get('orderid',[OrderController::class,'getOrderID']);
 });
 
 Route::get('/webhook', [Webhook::class,"create"]);

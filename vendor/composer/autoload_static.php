@@ -570,6 +570,7 @@ class ComposerStaticInit168a8c444265ce1473c17a108e67ff4b
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
+        'App\\Http\\Controllers\\OrderController' => __DIR__ . '/../..' . '/app/Http/Controllers/OrderController.php',
         'App\\Http\\Controllers\\OrderStatusController' => __DIR__ . '/../..' . '/app/Http/Controllers/OrderStatusController.php',
         'App\\Http\\Controllers\\ShopController' => __DIR__ . '/../..' . '/app/Http/Controllers/ShopController.php',
         'App\\Http\\Controllers\\ShopifyHelper' => __DIR__ . '/../..' . '/app/Http/Controllers/ShopifyHelper.php',

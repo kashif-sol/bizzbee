@@ -25,7 +25,8 @@
 <body>
     <?php
    $arr=[];
-if(isset($_GET['submit'])){
+   $result =json_encode($arr);
+// if(isset($_GET['submit'])){
     
     if(!empty($_GET['lang'])) {
 
@@ -33,18 +34,19 @@ if(isset($_GET['submit'])){
             // echo "value : ".$value.'<br/>';
             array_push($arr,$value);
         }
-       
+    
     }
     // dd($arr);
+  
+   
    $result =json_encode($arr);
 //    dd($result);
 
-}
-
 ?>
-
+ 
     <div class="container" style="padding: 60px;line-height: 36px;">
-<form method="get" action="orderid/<?php echo e($result); ?>">
+        
+<form method="get" action="orderid">
         <div class="row">
             <div class="card" style="box-shadow: 0px 0px 16px rgb(0 0 0 / 12%);">
                 <div class="card-body">
@@ -68,7 +70,7 @@ if(isset($_GET['submit'])){
                             
                             <?php $__currentLoopData = $data; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
-                                    <td><input type="checkbox"  name="lang[]'" id="checkbox_id<?php echo e($key); ?>" value="<?php echo e($data['id']); ?>"/>&nbsp;</td>
+                                    <td><input type="checkbox"  name="order_ids[]'" id="checkbox_id<?php echo e($key); ?>" value="<?php echo e($data['id']); ?>"/>&nbsp;</td>
                                     <td><?php echo e($data['order_number']); ?></td>
                                     <td><?php echo e($data['contact_email']); ?></td>
                                     <td><?php echo e($data['created_at']); ?></td>
@@ -88,6 +90,6 @@ if(isset($_GET['submit'])){
 
 </html>
 <script>
-
+console.log($('input[name="lang"]:checked').serialize());
 </script>
 <?php /**PATH C:\laragon\www\bizzybee-v2\resources\views/orders.blade.php ENDPATH**/ ?>
