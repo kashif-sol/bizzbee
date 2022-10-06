@@ -39,14 +39,7 @@ class Webhook extends Controller
 
         }
             
-    		/*
-            $order = $this->shopify->call([
-                'METHOD' => 'POST',
-                'URL' => '/admin/orders/'.$orderId.'/cancel.json',
-                // 'DATA' => json_encode($data)
-                ]);
-            return j
-            */
+    		
 
     }
 

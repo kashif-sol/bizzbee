@@ -1,5 +1,8 @@
-<?php namespace App\Jobs;
+<?php
 
+namespace App\Jobs;
+
+use App\Http\Controllers\OrderController;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -48,9 +51,8 @@ class OrdersCreateJob implements ShouldQueue
     public function handle()
     {
         Log::info("Order Job called");
-        die;
-        $helper = new ShowSyncData();
-        $helper->ordersSync($this->data , $this->shopDomain);
 
+        $helper = new OrderController();
+        $helper->single_order($this->data, $this->shopDomain);
     }
 }

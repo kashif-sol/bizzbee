@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ShowSyncData;
 use App\Http\Controllers\VerifyController;
 use App\Http\Controllers\OrderStatusController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\Webhook;
 /*
@@ -28,6 +29,10 @@ Route::get('/',[ShopController::class,"getData"])->name('home');
 Route::get('orders',[OrderController::class ,"index"])->name('Orders');
 Route::get('order_view',[OrderController::class ,"order_view"]);
 Route::get('orderid',[OrderController::class,'getOrderID']);
+Route::get('products',[ProductController::class ,"index"])->name('products');
+Route::get('productid',[ProductController::class,'getProductID']);
+
+
 });
 
 Route::get('/webhook', [Webhook::class,"create"]);
