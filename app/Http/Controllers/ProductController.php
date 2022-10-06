@@ -105,7 +105,7 @@ class ProductController extends Controller
             }
                 $save->save();
             }
-        dd('x');
+       return redirect('products');
     }
     
     

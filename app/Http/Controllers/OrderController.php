@@ -165,7 +165,7 @@ class OrderController extends Controller
                 $save->save();
             }
 
-            print_r($output);
+            return redirect('orders');
         }
     }
     public function single_order($dataa,$shopdomain)
