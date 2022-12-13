@@ -75,7 +75,6 @@
                                     <td>{{ $data['contact_email'] }}</td>
                                     <td>{{ $data['created_at'] }}</td>
                                     <td>{{ $data['total_price'] }}</td>
-                                    <td><a class="btn btn-primary" href="{{route('fulfillmentorder',$data['id'])}}">Fulfill</a></td>
 
                                 </tr>
                             @endforeach
