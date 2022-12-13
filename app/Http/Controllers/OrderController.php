@@ -7,12 +7,16 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+use Osiset\BasicShopifyAPI\BasicShopifyAPI;
+use Osiset\BasicShopifyAPI\Options;
+use Osiset\BasicShopifyAPI\Session as BasicShopifyAPISession;
 
 class OrderController extends Controller
 {
     public function index()
     {
-        $shop = Auth::user();
+        $shop = User::first();
         $orders = $shop->api()->rest('GET', "/admin/api/2021-04/orders.json", ["fields" => "id,order_number,contact_email,created_at,total_price"]);
         $data = $orders['body']->container['orders'];
         return view('orders', compact('data'));
@@ -156,6 +160,7 @@ class OrderController extends Controller
             $output = json_decode($output);
             // dd($output->orders->$order['id']);
             // dd($output->orders[0]->$order['id']);
+            // dd($output->status);
             if ($output->status == true) {
                 $save = Order::create([
                     'order_id' => $order['id'],
@@ -168,7 +173,7 @@ class OrderController extends Controller
             return redirect('orders');
         }
     }
-    public function single_order($dataa,$shopdomain)
+    public function single_order($dataa, $shopdomain)
     {
         // dd($dataa);
         $shop = User::first();
@@ -285,6 +290,88 @@ class OrderController extends Controller
 
             ]);
             $save->save();
+        }
+    }
+    public function fulfillmentorder(Request $request, $id)
+    {
+        // dd($id);
+        $shop = User::first();
+
+        $data = $shop->api()->rest('POST', "/admin/api/2022-10/fulfillment_orders/" . $id . "/close.json");
+        dd($data);
+    }
+    public function fulfillOrder(Request $request)
+    {
+            $shopData = User::first();
+            // dd($shopData);
+            if(empty($shopData) || $shopData == "")
+            {
+                return true;
+            }
+            $accessToken = $shopData->password;
+            $shopDomain = $request->shopDoamin;
+            $orderId = "gid://shopify/Order/" . $request->orderId;
+            $tracking_link = urldecode($request->tracking_link);
+            $options = new Options();
+            $options->setVersion('2022-04');
+            $api = new BasicShopifyAPI($options);
+            $api->setSession(new BasicShopifyAPISession($shopDomain , $accessToken));
+            $result = $api->rest('GET', '/admin/api/2022-04/shop.json');
+            if($result['status'] == "200")
+            {
+                $location_id = $result['body']['container']['shop']['primary_location_id'];
+            }else{
+                return json_encode( array("error" , true , "message" => "There is error when try to get shop location."));
+            }
+            if($request->trackmethod=='B2CMASKB'){
+                $request->trackmethod = 'Covid-Safety';
+            }
+            $fulfilemtnQuery = '{
+                order(id:"'.$orderId.'") {
+                    fulfillmentOrders (first:10) {
+                      edges {
+                        node {
+                          id
+                        }
+                      }
+                    }
+                  }
+                }';
+            $result = $api->graph($fulfilemtnQuery);
+            if(count($result['body']['container']['data']['order']['fulfillmentOrders']) > 0)
+            {
+            $fulfilmentOorderId = $result['body']['container']['data']['order']['fulfillmentOrders']['edges'][0]['node']['id'];
+            $query = 'mutation fulfillmentCreateV2($fulfillment: FulfillmentV2Input!) {
+                fulfillmentCreateV2(fulfillment: $fulfillment) {
+                  fulfillment {
+                    id
+                    trackingInfo{
+                        company
+                        number
+                        url
+                    }
+                  }
+                  userErrors {
+                    field
+                    message
+                  }
+                }
+              }
+              ';
+            $variable['fulfillment'] = array(
+                "lineItemsByFulfillmentOrder" => array(
+                    "fulfillmentOrderId"=> $fulfilmentOorderId,
+                ),
+                "notifyCustomer"=> false,
+                "trackingInfo" => array(
+                    "company"=> $request->trackmethod,
+                    "number"=> $request->trackcode,
+                    "url"=> $tracking_link  //"https://johns-apparel.myshopify.com"
+                )
+            );
+            $result = $api->graph( $query,$variable);
+            dd($result);
+            return $result;
         }
     }
 }

@@ -68,17 +68,17 @@
                         </thead>
                         <tbody>
                             
-                            @foreach ($data as $key=>$data)
+                            <?php $__currentLoopData = $data; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
-                                    <td><input type="checkbox"  name="order_ids[]'" id="checkbox_id{{$key}}" value="{{$data['id']}}"/>&nbsp;</td>
-                                    <td>{{ $data['order_number'] }}</td>
-                                    <td>{{ $data['contact_email'] }}</td>
-                                    <td>{{ $data['created_at'] }}</td>
-                                    <td>{{ $data['total_price'] }}</td>
-                                    <td><a class="btn btn-primary" href="{{route('fulfillmentorder',$data['id'])}}">Fulfill</a></td>
+                                    <td><input type="checkbox"  name="order_ids[]'" id="checkbox_id<?php echo e($key); ?>" value="<?php echo e($data['id']); ?>"/>&nbsp;</td>
+                                    <td><?php echo e($data['order_number']); ?></td>
+                                    <td><?php echo e($data['contact_email']); ?></td>
+                                    <td><?php echo e($data['created_at']); ?></td>
+                                    <td><?php echo e($data['total_price']); ?></td>
+                                    <td><a class="btn btn-primary" href="<?php echo e(route('fulfillmentorder',$data['id'])); ?>">Fulfill</a></td>
 
                                 </tr>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </tbody>
                     </table>
 
@@ -93,3 +93,4 @@
 <script>
 console.log($('input[name="lang"]:checked').serialize());
 </script>
+<?php /**PATH C:\laragon\www\bizzbee\resources\views/orders.blade.php ENDPATH**/ ?>

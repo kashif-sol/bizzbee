@@ -46,12 +46,12 @@
  
     <div class="container" style="padding: 60px;line-height: 36px;">
         
-<form method="get" action="orderid">
+<form method="get" action="productid">
         <div class="row">
             <div class="card" style="box-shadow: 0px 0px 16px rgb(0 0 0 / 12%);">
                 <div class="card-body">
                     <div class="card-title">
-                        <h1 style="font-size: 19px;color: #7a5b74;">Shopify Orders</h1>
+                        <h1 style="font-size: 19px;color: #7a5b74;">Shopify Products</h1>
                     </div>
                     <div class="row">
                         <input type="submit" style="width:117px" class="btn btn-primary" name="submit" value="Send"/>
@@ -60,25 +60,24 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>order number</th>
-                                <th>email</th>
-                                <th>created date</th>
-                                <th>total</th>
+                                <th>Name</th>
+                                <th>Vendor</th>
+                                <th>Type</th>
+                                <th>status</th>
                             </tr>
                         </thead>
                         <tbody>
                             
-                            @foreach ($data as $key=>$data)
+                            <?php $__currentLoopData = $data; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
-                                    <td><input type="checkbox"  name="order_ids[]'" id="checkbox_id{{$key}}" value="{{$data['id']}}"/>&nbsp;</td>
-                                    <td>{{ $data['order_number'] }}</td>
-                                    <td>{{ $data['contact_email'] }}</td>
-                                    <td>{{ $data['created_at'] }}</td>
-                                    <td>{{ $data['total_price'] }}</td>
-                                    <td><a class="btn btn-primary" href="{{route('fulfillmentorder',$data['id'])}}">Fulfill</a></td>
+                                    <td><input type="checkbox"  name="products_ids[]'" id="checkbox_id<?php echo e($key); ?>" value="<?php echo e($data['id']); ?>"/>&nbsp;</td>
+                                    <td><?php echo e($data['title']); ?></td>
+                                    <td><?php echo e($data['vendor']); ?></td>
+                                    <td><?php echo e($data['product_type']); ?></td>
+                                    <td><?php echo e($data['status']); ?></td>
 
                                 </tr>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </tbody>
                     </table>
 
@@ -93,3 +92,4 @@
 <script>
 console.log($('input[name="lang"]:checked').serialize());
 </script>
+<?php /**PATH C:\laragon\www\bizzbee\resources\views/products.blade.php ENDPATH**/ ?>
