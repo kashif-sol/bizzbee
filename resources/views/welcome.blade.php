@@ -26,7 +26,7 @@
         }
     ?>
     <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #87939f63!important">
-        <a class="navbar-brand" href="/">BizzyBee<span class="sr-only">(current)</span></a>
+        <a class="navbar-brand" href="/"><img src="{{asset('/upload//senderum.png')}}" ><span class="sr-only">(current)</span></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -54,7 +54,7 @@
 
             <div class="row">
                 <div class="col-md-12 text-center mb-3">
-                    <img src="{{asset('/upload/logo.PNG')}}" alt="">
+                    <img src="{{asset('/upload//senderum.png')}}" alt="">
                 </div>
                 <div
                     class="col-10 offset-1 col-lg-8 offset-lg-2 div-wrapper d-flex justify-content-center align-items-center">
@@ -64,6 +64,7 @@
                     <div class="card" style="width: 100%">
 
                         <div class="card-body">
+                            @if(empty($identity))
                            <form id="verificationForm" method="POST" action="/verifyApi">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <input type="hidden" name="shop_id" value="{{Auth::user()->id}}" id="shop_id">
@@ -88,6 +89,9 @@
                                 </div>
                             </div>
                         </form>
+                        @else
+                        <strong>successfully verified your details.</strong> 
+                        @endif
                         </div>
                     </div>
                    
@@ -103,11 +107,11 @@
                 <div class="col-md-3"></div>
                 <div class="col-md-9">
                     <div class="row">
-                        <p style="color: #e39b18">Ready to make it big in e-commerce industry?</p>
+                        <p style="color: #243677">Ready to make it big in e-commerce industry?</p>
                     </div>
 
                     <div class="row">
-                        <h4 style="color: #959595">Let's Start Fulfiling Your E-Commerce Dreams.</h4>
+                        <h4 style="color: #243677">Let's Start Fulfiling Your E-Commerce Dreams.</h4>
                     </div>
                    
                 </div>
