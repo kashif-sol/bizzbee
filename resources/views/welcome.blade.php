@@ -26,7 +26,7 @@
         }
     ?>
     <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #87939f63!important">
-        <a class="navbar-brand" href="/"><img src="{{asset('/upload//senderum.png')}}" ><span class="sr-only">(current)</span></a>
+        <a class="navbar-brand" href="/"><img src="{{asset('/upload/senderum.png')}}" ><span class="sr-only">(current)</span></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -54,7 +54,7 @@
 
             <div class="row">
                 <div class="col-md-12 text-center mb-3">
-                    <img src="{{asset('/upload//senderum.png')}}" alt="">
+                    <img src="{{asset('/upload/senderum.png')}}" alt="">
                 </div>
                 <div
                     class="col-10 offset-1 col-lg-8 offset-lg-2 div-wrapper d-flex justify-content-center align-items-center">
