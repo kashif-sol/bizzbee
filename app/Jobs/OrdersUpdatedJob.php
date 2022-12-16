@@ -6,6 +6,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\Http\Controllers\ShowSyncData;
+use Illuminate\Support\Facades\Log;
 class OrdersUpdatedJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -45,9 +46,10 @@ class OrdersUpdatedJob implements ShouldQueue
      */
     public function handle()
     {
-		//mail('ankesh@internetbusinesssolutionsindia.com','check hook','this');
-        $helper = new ShowSyncData();
-        $helper->ordersSync($this->data , $this->shopDomain);
+		Log::info("Order Job called");
+
+        $helper = new OrderController();
+        $helper->single_order($this->data, $this->shopDomain);
 
     }
 }

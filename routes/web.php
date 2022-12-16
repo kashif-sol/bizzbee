@@ -31,7 +31,7 @@ Route::get('order_view',[OrderController::class ,"order_view"]);
 Route::get('orderid',[OrderController::class,'getOrderID']);
 Route::get('products',[ProductController::class ,"index"])->name('products');
 Route::get('productid',[ProductController::class,'getProductID']);
-Route::get('fulfillmentorder/{id}',[OrderController::class,'fulfillmentorder'])->name('fulfillmentorder');
+Route::get('webhooks',[ProductController::class,'webhook']);
 
 
 });
@@ -44,7 +44,6 @@ Route::get('/customers/data_request', function () {
 Route::get('/customers/redact', function () {
     
 });
-Route::post('fulfillOrder',[OrderController::class,'fulfillOrder'])->name('fulfillOrder');
 
 Route::get('/shop/redact', function () {
     

@@ -35,10 +35,15 @@ class OrderStatusController extends Controller
     
     public function fulfillOrder(Request $request)
     {
-
-            $shopData = DB::table('users')->orderBy('id', 'desc')->where('name', $request->shopDoamin)->first();
+           
+            $shopData = DB::table('users')->orderBy('id', 'desc')->where('name', $request->shopDomain)->first();
+           
+            if(empty($shopData) || $shopData == "")
+            {
+                return true;
+            }
             $accessToken = $shopData->password;
-            $shopDomain = $request->shopDoamin;
+            $shopDomain = $request->shopDomain;
             $orderId = "gid://shopify/Order/" . $request->orderId;
             $tracking_link = urldecode($request->tracking_link);
             $options = new Options();
@@ -53,7 +58,7 @@ class OrderStatusController extends Controller
                 return json_encode( array("error" , true , "message" => "There is error when try to get shop location.")); 
             }
            
-            
+           
 			if($request->trackmethod=='B2CMASKB'){
 				$request->trackmethod = 'Covid-Safety';
 			}
@@ -72,9 +77,13 @@ class OrderStatusController extends Controller
                 }';
 
             $result = $api->graph($fulfilemtnQuery);
+         
+            if(count($result['body']['container']['data']['order']['fulfillmentOrders']) > 0)
+            {
+               
             $fulfilmentOorderId = $result['body']['container']['data']['order']['fulfillmentOrders']['edges'][0]['node']['id'];
+              
            
-
             $query = 'mutation fulfillmentCreateV2($fulfillment: FulfillmentV2Input!) {
                 fulfillmentCreateV2(fulfillment: $fulfillment) {
                   fulfillment {
@@ -109,6 +118,7 @@ class OrderStatusController extends Controller
            
             $result = $api->graph( $query,$variable);                                                                               
             return $result;
+        }
     }
     
     

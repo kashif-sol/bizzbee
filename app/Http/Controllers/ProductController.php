@@ -105,7 +105,16 @@ class ProductController extends Controller
             }
                 $save->save();
             }
-       return redirect('products');
+        dd('x');
+    }
+public function webhook(){
+        $shop = Auth::user();
+
+        $shopName = DB::table('users')->orderBy('id', 'desc')->where('name', $shop->name)->first();
+        $shopData = DB::table('shops_otherdetails')->orderBy('id', 'desc')->where('shop_id', $shopName->id)->first();
+        $product_api = $shop->api()->rest('GET', "/admin/api/2022-04/webhooks.json");
+
+        dd($product_api);
     }
     
     

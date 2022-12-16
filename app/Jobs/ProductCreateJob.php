@@ -47,6 +47,7 @@ class ProductCreateJob implements ShouldQueue
     public function handle()
     {
         // Do what you wish with the data
+        Log::info("Product Create Job called");
         $helper = new ShowSyncData();
         $helper->storeDevice($this->data , $this->shopDomain);
     }
