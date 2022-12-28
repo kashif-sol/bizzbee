@@ -1,21 +1,41 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.master')
+@section('title') {{'Home'}} @endsection
+@push('styles')
+    <style>
+        .card-body input {
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #dfdfdf;
+            height: 35px;
+            width: :90%;
+        }
 
-        <title>Shopify Data sync app</title>
+        .card {
+            width: 100%;
+            background: #FFFCFC;
+            box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.12);
+            border-radius: 15px;
+        }
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+        .card-body .form-inline {
+            display: flex;
+            align-items: baseline;
+        }
 
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-    </head>
-    <body style="    margin-bottom: 52px;">
-    <?php
+        .row p {
+
+            margin-top: 0;
+            margin-bottom: 1rem;
+            padding-left: 57px;
+        }
+
+        header p {
+            padding-left: 20px;
+        }
+    </style>
+@endpush
+@section('content')
+    @php
     $identity = "";
     $authentication="";
     $sonce="";
@@ -24,26 +44,7 @@
             $authentication = $data->authentication;
             $sonce = $data->sonce;
         }
-    ?>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #87939f63!important">
-        <a class="navbar-brand" href="/"><img src="{{asset('/upload/senderum.png')}}" ><span class="sr-only">(current)</span></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-      
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="{{route('Orders')}}">Orders</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{route('products')}}">Products</a>
-            </li>
-         
-          </ul>
-         
-        </div>
-      </nav>
+    @endphp
     <header>
         <p class="mt-2">We will sync your Shopify Store data with our system.you need below please contact us for
             details.</p>
@@ -119,80 +120,45 @@
         </div>
     </div>
 
-    <style>
-        .card-body input {
-            margin-bottom: 10px;
-            border-radius: 5px;
-            border: 1px solid #dfdfdf;
-            height: 35px;
-            width: :90%;
-        }
 
-        .card {
-            width: 100%;
-            background: #FFFCFC;
-            box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.12);
-            border-radius: 15px;
-        }
+@push('scripts')
+<script type="text/javascript">
 
-        .card-body .form-inline {
-            display: flex;
-            align-items: baseline;
-        }
+    $(document).ready(function() {
+        $('#verificationForm').on('submit', function(event){
+            event.preventDefault();
 
-        .row p {
+            var formData = {
+                "_token": "{{ csrf_token() }}",
+                apiKey     : $('input[name=strIdentity]').val(),
+                token    : $('input[name=strAuthentication]').val(),
 
-            margin-top: 0;
-            margin-bottom: 1rem;
-            padding-left: 57px;
-        }
+                shop_id: $("#shop_id").val()
+            }
 
-        header p {
-            padding-left: 20px;
-        }
-    </style>
+            $.ajax({
+                type     : "POST",
+                // url      : $(this).attr('action') + '/store',
+                url      : $(this).attr('action'),
+                data     : formData,
+                cache    : false,
 
-                <script type="text/javascript">
+                success  : function(data) {
 
-                    $(document).ready(function() {
+                   if(data['response'] == false)
+                        alert("there is error in verify your details!");
+                    else
+                        $("#successMsg").show();
+                }
+            })
 
-                    // Ajax for our form
-                    $('#verificationForm').on('submit', function(event){
-                        event.preventDefault();
+            // console.log(formData);
 
-                        var formData = {
-                            "_token": "{{ csrf_token() }}",
-                            apiKey     : $('input[name=strIdentity]').val(),
-                            token    : $('input[name=strAuthentication]').val(),
-                           
-                            shop_id: $("#shop_id").val()
-                        }
+            return false;
 
-                        $.ajax({
-                            type     : "POST",
-                            // url      : $(this).attr('action') + '/store',
-                            url      : $(this).attr('action'),
-                            data     : formData,
-                            cache    : false,
+        });
+    });
 
-                            success  : function(data) {
-                                
-                               if(data['response'] == false)
-                                    alert("there is error in verify your details!");  
-                                else
-                                    $("#successMsg").show();
-                            }
-                        })
-
-                        // console.log(formData);
-
-                        return false;
-
-                    });
-                    });
-
-                    
-                </script>
-           
-    </body>
-</html>
+</script>
+@endpush
+@endsection

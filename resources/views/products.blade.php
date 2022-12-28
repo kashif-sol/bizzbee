@@ -1,28 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.master')
+@section('title') {{'Products'}} @endsection
+@section('content')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-   <style>
-        th {
-            font-size: 18px;
-            text-align: center;
-            color:#9b9b9b;
-        }
-
-        td {
-            text-align: center;
-        }
-    </style>
-</head>
-
-<body>
     <?php
    $arr=[];
    $result =json_encode($arr);
@@ -43,23 +22,24 @@
 //    dd($result);
 
 ?>
- 
-    <div class="container" style="padding: 60px;line-height: 36px;">
+
+    <div class="container" style="padding-top: 5%;line-height: 36px;">
+        <div class="card-title mb-4">
+            <h1 style="font-size: 25px; font-weight: bold;">Shopify Products</h1>
+        </div>
         
 <form method="get" action="productid">
         <div class="row">
             <div class="card" style="box-shadow: 0px 0px 16px rgb(0 0 0 / 12%);">
                 <div class="card-body">
-                    <div class="card-title">
-                        <h1 style="font-size: 19px;color: #7a5b74;">Shopify Products</h1>
+
+                    <div class="row pt-2 pb-4 pl-2" style="margin-left:0">
+                        <input type="submit" style="width:117px" class="btn btn-success" name="submit" value="Published"/>
                     </div>
-                    <div class="row">
-                        <input type="submit" style="width:117px" class="btn btn-primary" name="submit" value="Send"/>
-                    </div>
-                    <table class="table table-striped table-hover">
+                    <table class="table table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th></th>
                                 <th>Name</th>
                                 <th>Vendor</th>
                                 <th>Type</th>
@@ -86,9 +66,10 @@
         </div>
     </form>
     </div>
-</body>
 
-</html>
-<script>
-console.log($('input[name="lang"]:checked').serialize());
-</script>
+@endsection
+@push('scripts')
+    <script>
+        console.log($('input[name="lang"]:checked').serialize());
+    </script>
+@endpush
