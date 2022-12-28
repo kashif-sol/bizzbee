@@ -6,6 +6,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 
 class ProductController extends Controller
 {
@@ -105,7 +106,7 @@ class ProductController extends Controller
             }
                 $save->save();
             }
-        dd('x');
+            return Redirect::tokenRedirect('home', ['notice' => 'Products sent']);
     }
 public function webhook(){
         $shop = Auth::user();
