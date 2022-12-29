@@ -49,6 +49,8 @@ class OrderController extends Controller
                $ch = curl_init();
 
                $postdata['order_id'] = $order['id'];
+               $postdata['status'] = $order['fulfillment_status'];
+               $postdata['financial_status'] = $order['financial_status'];
                $postdata['cart_tax'] = $order['total_tax'];
                $postdata['currency'] = $order['currency'];
                $postdata['discount_tax'] = $order['current_total_discounts'];
