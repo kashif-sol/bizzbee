@@ -24,6 +24,8 @@ Route::post('/verifyApi',[VerifyController::class,"verifyData"]);
 Route::post('/cancelorder', [OrderStatusController::class,"cancelOrder"]);
 Route::post('/fulfillorder',[OrderStatusController::class,"fulfillOrder"]);
 Route::post('/stockorder',[OrderStatusController::class,"stockOrder"]);
+Route::post('/updateorder',[OrderStatusController::class,"updateOrder"]);
+
 Route::group(['middleware' => 'verify.shopify'], function () {
 Route::get('/',[ShopController::class,"getData"])->name('home');
 Route::get('orders',[OrderController::class ,"index"])->name('Orders');

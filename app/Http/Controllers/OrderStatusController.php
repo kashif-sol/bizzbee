@@ -32,6 +32,40 @@ class OrderStatusController extends Controller
             $response = $api->rest('POST', '/admin/orders/'.$orderId.'/cancel.json');  
             return json_encode( $response);
     }
+
+    public function updateOrder(Request $request)
+    {
+        
+            $shopData = DB::table('users')->orderBy('id', 'desc')->where('name', $request->shopDomain)->first();
+            $accessToken = $shopData->password;
+            $shopDomain = $request->shopDomain;
+            $orderId = $request->orderId;
+            $options = new Options();
+            $options->setVersion('2022-04');
+            $api = new BasicShopifyAPI($options);
+            $api->setSession(new Session($shopDomain , $accessToken));
+
+            $order_data["id"] = $orderId;
+            $order_data["shipping_address"] = array(
+                "address1" => $request->address1,
+                "address2" => $request->address2,
+                "city" => $request->city,
+                "company" => $request->company,
+                "country" => $request->country,
+                "country_code" => $request->country_code,
+                "first_name" => $request->first_name,
+                "last_name" => $request->last_name,
+                "phone" => $request->phone,
+                "province" => $request->province,
+                "province_code" => $request->province_code,
+                "zip" => $request->zip
+            );
+            $order["order"] =  $order_data;
+          
+            $response = $api->rest('PUT', '/admin/orders/'.$orderId.'.json' , $order);  
+            
+            return json_encode( $response);
+    }
     
     public function fulfillOrder(Request $request)
     {
